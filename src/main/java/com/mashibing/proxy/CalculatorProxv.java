@@ -1,6 +1,7 @@
 package com.mashibing.proxy;
 
 import com.mashibing.service.Calculator;
+import com.mashibing.util.LogUtil;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -18,17 +19,19 @@ public class CalculatorProxv {
         //用来执行被代理类需要执行的方法
         InvocationHandler handler = new InvocationHandler() {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                System.out.println(method.getName()+"开始执行，参数列表是"+ Arrays.asList(args));
                 //开始调用被代理类的方法
                 Object result = null;
                 try{
+//                    System.out.println(method.getName()+"开始执行，参数列表是"+ Arrays.asList(args));
+                    LogUtil.start(method,args);
                     result = method.invoke(calculator,args);
-                    System.out.println(method.getName()+"开始执行，结果是"+ result);
+//                    System.out.println(method.getName()+"开始执行，结果是"+ result);
+                    LogUtil.stop(method,result);
                 }catch(Exception e){
-                    System.out.println(method.getName()+"方法抛出异常："+e.getMessage());
+                    LogUtil.logException(method,e);
                     e.printStackTrace();
                 }finally {
-                    System.out.println(method.getName()+"方法执行结束。。。");
+                    LogUtil.logFinally(method);
                 }
                 return result;
             }

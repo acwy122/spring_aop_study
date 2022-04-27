@@ -12,6 +12,14 @@ public class LogUtil {
     }
 
     public static void stop(Method method,Object ... objects){
-        System.out.println(method.getName()+"方法开始执行：参数是"+ Arrays.asList(objects));
+        System.out.println(method.getName()+"方法执行结果是："+ Arrays.asList(objects));
+    }
+
+    public static void logException(Method method,Exception e){
+        System.out.println(method.getName()+"方法抛出异常："+e.getMessage());
+    }
+
+    public static void logFinally(Method method){
+        System.out.println(method.getName()+"方法执行结束。。。");
     }
 }
