@@ -2,8 +2,8 @@ package com.mashibing.service;
 
 public interface Calculator {
 
-    public int add (int i,int j);
-    public int sub (int i,int j);
-    public int mul (int i,int j);
-    public int div (int i,int j);
+    public Integer add (Integer i,Integer j) throws NoSuchMethodException;
+    public Integer sub (Integer i,Integer j) throws NoSuchMethodException;
+    public Integer mul (Integer i,Integer j) throws NoSuchMethodException;
+    public Integer div (Integer i,Integer j) throws NoSuchMethodException;
 }
