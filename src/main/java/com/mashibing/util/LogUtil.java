@@ -1,25 +1,45 @@
 package com.mashibing.util;
 
 import com.mashibing.service.MyCalculator;
+import org.aspectj.lang.annotation.*;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+@Aspect
+@Component
 public class LogUtil {
-    public static void start(Method method,Object ... objects){
+
+    /**
+     * 通知注解有以下集中类型
+     *
+     * @Before:前置通知，在方法执行之前完成
+     * @After：后置通知，在方法执行完成之后通知
+     * @afterBeturing：返回通知，在返回结果之后运行
+     * @AfterThrowing：异常通知出现异常的时候使用
+     * @Around：环绕通知
+     *
+     * 在方法的参数列表中不要随便添加参数值，会有异常信息
+     *
+     */
+    @Before("execution(public Integer com.mashibing.service.MyCalculator.add(Integer,Integer))")
+    public static void start(){
         //MyCalculator.class.getMethod()
-        System.out.println(method.getName()+"方法开始执行：参数是"+ Arrays.asList(objects));
+        System.out.println("方法开始执行：参数是");
     }
 
-    public static void stop(Method method,Object ... objects){
-        System.out.println(method.getName()+"方法执行结果是："+ Arrays.asList(objects));
+    @AfterReturning("execution(public Integer com.mashibing.service.MyCalculator.add(Integer,Integer))")
+    public static void stop(){
+        System.out.println("方法执行结果是：");
     }
-
-    public static void logException(Method method,Exception e){
-        System.out.println(method.getName()+"方法抛出异常："+e.getMessage());
+    @AfterThrowing("execution(public Integer com.mashibing.service.MyCalculator.add(Integer,Integer))")
+    public static void logException(){
+        System.out.println("方法抛出异常：");
     }
-
-    public static void logFinally(Method method){
-        System.out.println(method.getName()+"方法执行结束。。。");
+    @After("execution(public Integer com.mashibing.service.MyCalculator.add(Integer,Integer))")
+    public static void logFinally(){
+        System.out.println("方法执行结束。。。");
     }
 }

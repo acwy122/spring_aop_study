@@ -1,5 +1,8 @@
 package com.mashibing.service;
 
+
+import org.springframework.stereotype.Service;
+
 public interface Calculator {
 
     public Integer add (Integer i,Integer j) throws NoSuchMethodException;
