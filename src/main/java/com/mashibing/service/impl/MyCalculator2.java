@@ -1,12 +1,9 @@
-package com.mashibing.service;
+package com.mashibing.service.impl;
 
-import com.mashibing.util.LogUtil;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
-
 @Service
-public class MyCalculator /*implements Calculator*/ {
+public class MyCalculator2 /*implements Calculator*/ {
 
     public Integer add(Integer i, Integer j) throws NoSuchMethodException{
 //        Method add = MyCalculator.class.getMethod("add", Integer.class, Integer.class);
@@ -40,7 +37,7 @@ public class MyCalculator /*implements Calculator*/ {
         return result;
     }
 
-    public Integer show(Integer i){
+    public Integer show(Integer i,Double j){
         System.out.println("show....");
         return i;
     }
