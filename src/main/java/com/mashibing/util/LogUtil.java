@@ -6,6 +6,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 
 @Aspect
 @Component
+@Order(200)
 public class LogUtil {
 
     /**
@@ -108,6 +110,12 @@ public class LogUtil {
      *          执行顺序改位：
      *          环绕前置通知    before   环绕异常通知   环绕返回通知   after  afterThrowing
      *
+     *
+     *      当应用程序中包含多个切面类的时候，具体的执行顺序是什么样的？
+     *          按照切面类的名称首字母进行排序操作，按照字典序
+     *          如果需要认为的规定顺序可以在切面类上添加@Order注解，同时添加具体的值
+     *          值越小，越优先
+     *
      */
     @Pointcut("execution(public Integer com.mashibing.service.MyCalculator.*(Integer,Integer))")
     public void myPointCut(){}
@@ -119,10 +127,10 @@ public class LogUtil {
     private void  start(JoinPoint joinPoint){
         //获取方法签名
         Signature signature = joinPoint.getSignature();
-        System.out.println(signature.getName());
+        System.out.println("log---"+signature.getName());
         //获取参数列表
         Object[] args = joinPoint.getArgs();
-        System.out.println(signature.getName()+"方法开始执行：参数是："+Arrays.asList(args));
+        System.out.println("log---"+signature.getName()+"方法开始执行：参数是："+Arrays.asList(args));
 
         //MyCalculator.class.getMethod()
 //        System.out.println("方法开始执行：参数是");
@@ -132,21 +140,21 @@ public class LogUtil {
     @AfterReturning(value = "myPointcut1()", returning = "result")
     public static void stop(JoinPoint joinPoint,Object result){
         Signature signature = joinPoint.getSignature();
-        System.out.println(signature.getName()+"方法执行结束：参数是："+Arrays.asList(result));
+        System.out.println("log---"+signature.getName()+"方法执行结束：参数是："+Arrays.asList(result));
     }
 
 
     @AfterThrowing(value = "myPointCut()",throwing = "e")
     public static void logException(JoinPoint joinPoint,Exception e){
         Signature signature = joinPoint.getSignature();
-        System.out.println(signature.getName()+"方法执行异常："+e);
+        System.out.println("log---"+signature.getName()+"方法执行异常："+e);
 
     }
     @After("myPointCut()")
     public static void logFinally(JoinPoint joinPoint){
         Signature signature = joinPoint.getSignature();
         Object[] args = joinPoint.getArgs();
-        System.out.println(signature.getName()+"方法开始执行：参数是："+Arrays.asList(args));
+        System.out.println("log---"+signature.getName()+"方法开始执行：参数是："+Arrays.asList(args));
 
     }
 
@@ -156,18 +164,17 @@ public class LogUtil {
         Object[] args = pjp.getArgs();
         Object result = null;
         try {
-            System.out.println("环绕通知start"+signature.getName()+"开始执行，参数为："+Arrays.asList(args));
+            System.out.println("log-----"+"环绕通知start"+signature.getName()+"开始执行，参数为："+Arrays.asList(args));
             //通过反射的方式调用目标的方法，相当于执行method.invoke(),可以自己修改结果值
             result = pjp.proceed(args);
             result = 100;
-            System.out.println("环绕通知stop"+signature.getName()+"方法执行结束");
+            System.out.println("log-----"+"环绕通知stop"+signature.getName()+"方法执行结束");
         } catch (Throwable throwable) {
-
-            System.out.println("环绕异常通知："+signature.getName()+"出现异常");
+            System.out.println("log-----"+"环绕异常通知："+signature.getName()+"出现异常");
             throw throwable;
 
         }finally {
-            System.out.println("环绕返回通知："+signature.getName()+"方法返回结果是："+result);
+            System.out.println("log-----"+"环绕返回通知："+signature.getName()+"方法返回结果是："+result);
         }
         return result;
     }

@@ -28,9 +28,6 @@ public class MyTest {
     public void text02() throws NoSuchMethodException {
         MyCalculator calculator = context.getBean(MyCalculator.class);
         calculator.sub(1,1);
-        calculator.add(1,1);
-        System.out.println("-------------------");
-        calculator.show(1);
         System.out.println(calculator.getClass());
     }
 
