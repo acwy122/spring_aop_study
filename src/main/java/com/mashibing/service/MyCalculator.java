@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 
-@Service
+//@Service
 public class MyCalculator /*implements Calculator*/ {
 
     public Integer add(Integer i, Integer j) throws NoSuchMethodException{

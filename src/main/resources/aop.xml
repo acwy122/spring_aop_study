@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.springframework.org/schema/aop" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd"
+       >
+
+    <bean id="logUtil" class="com.mashibing.util.LogUtil"></bean>
+    <bean id="securityUtil" class="com.mashibing.util.SecurityUtil"></bean>
+    <bean id="myCalculator" class="com.mashibing.service.MyCalculator"></bean>
+    <aop:config>
+        <!-- 声明切面 -->
+        <aop:aspect ref="logUtil">
+            <!-- 定义通知在哪些方法上使用 -->
+            <aop:before method="start" pointcut="execution(Integer com.mashibing.service.MyCalculator.*(..))"></aop:before>
+            <aop:after method="logFinally" pointcut="execution(Integer com.mashibing.service.MyCalculator.*(..))"></aop:after>
+            <aop:after-returning method="stop" pointcut="execution(Integer com.mashibing.service.MyCalculator.*(..))" returning="result"></aop:after-returning>
+            <aop:after-throwing method="logException" pointcut="execution(Integer com.mashibing.service.MyCalculator.*(..))" throwing="e"></aop:after-throwing>
+            <aop:around method="around" pointcut="execution(Integer com.mashibing.service.MyCalculator.*(..))"></aop:around>
+        </aop:aspect>
+    </aop:config>
+</beans>

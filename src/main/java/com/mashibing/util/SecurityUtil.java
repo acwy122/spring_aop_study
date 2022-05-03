@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Aspect
-@Component
-@Order(100)
+//@Aspect
+//@Component
+//@Order(100)
 public class SecurityUtil {
 
     @Pointcut("execution(public Integer com.mashibing.service.MyCalculator.*(Integer,Integer))")

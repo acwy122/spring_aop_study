@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-@Aspect
-@Component
-@Order(200)
+//@Aspect
+//@Component
+//@Order(200)
 public class LogUtil {
 
     /**
